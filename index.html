@@ -15,6 +15,12 @@
         .nav-item.active { background: var(--main) !important; color: white !important; }
 
         .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; box-sizing: border-box; }
+        
+        /* 🔥 유튜브 임베드 & 추천곡 스타일 */
+        .video-wrapper { max-width: 500px; margin: 0 auto 15px; border-radius: 20px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.05); aspect-ratio: 16 / 9; }
+        .recommend-tag { text-align: center; margin-bottom: 25px; }
+        .recommend-tag span { font-size: 0.9rem; font-weight: bold; color: var(--main); background: white; padding: 5px 15px; border-radius: 15px; border: 1px solid var(--border); }
+
         .write-section { max-width: 500px; margin: 0 auto 40px; background: var(--card-bg); padding: 20px; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.02); border: 1px solid var(--border); }
         select, input, textarea { width: 100%; box-sizing: border-box; padding: 11px; margin-bottom: 11px; border: 1px solid #e0e0e0; border-radius: 10px; font-family: inherit; outline: none; background-color: #fcfcfc; }
         .btn-post { width: 100%; background: var(--main); color: white; border: none; padding: 13px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 0.95rem; }
@@ -69,7 +75,7 @@
     <div id="modal" onclick="closeModal()"><img id="modalImg"></div>
 
     <div class="header">
-        <h2 style="margin:0; color: var(--title); font-size: 1.3rem;">장미 & 호연</h2>
+        <h2 style="margin:0; color: var(--title); font-size: 1.3rem;">🤎 장미 & 호연</h2>
         <div class="nav">
             <div class="nav-item active" onclick="setTab('전체')">전체보기</div>
             <div class="nav-item" onclick="setTab('일기')">일기</div>
@@ -79,6 +85,14 @@
     </div>
 
     <div class="container">
+        <div class="video-wrapper">
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/zgaCZOQCpp8?si=r4Kl3mmmFczaCgFz" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+
+        <div class="recommend-tag">
+            <span>🎵 오늘의 추천곡</span>
+        </div>
+
         <div class="write-section">
             <select id="pCategory">
                 <option value="일기">📖 일기</option>
@@ -88,7 +102,7 @@
             <input type="text" id="pTitle" placeholder="제목">
             <textarea id="pContent" rows="4" placeholder="내용..."></textarea>
             <input type="file" id="pFiles" accept="image/*,video/*" multiple>
-            <div id="loading-msg" style="display:none; text-align:center; font-weight:bold; margin-bottom:10px;">저장 중... </div>
+            <div id="loading-msg" style="display:none; text-align:center; font-weight:bold; margin-bottom:10px;">저장 중... 🌱</div>
             <button class="btn-post" id="postBtn" onclick="savePost()">저장</button>
         </div>
         <div id="postsList"></div>
@@ -150,16 +164,15 @@
                     date: serverTimestamp()
                 });
                 location.reload();
-            } catch (e) { alert("오류"); btn.disabled = false; }
+            } catch (e) { alert("오류!"); btn.disabled = false; }
         };
 
         window.deletePost = async (id) => { if(confirm("삭제할까요?")) await deleteDoc(doc(db, "rose_memory_v5", id)); };
 
-        // 🔥 수정 취소 시 상태 초기화 함수 추가
         window.cancelEdit = (id) => {
             const card = document.getElementById(`body-${id}`);
-            card.removeAttribute('data-editing'); // 수정 중 상태 제거
-            render(); // 다시 그리기
+            card.removeAttribute('data-editing');
+            render();
         };
 
         window.toggleEdit = (id) => {
@@ -217,7 +230,6 @@
                     if (currentTab !== '전체' && d.category !== currentTab) return;
                     const id = doc.id;
                     
-                    // 현재 수정 중인 카드는 렌더링에서 제외 (깜빡임 방지)
                     const existingCard = document.getElementById(`body-${id}`);
                     if (existingCard && existingCard.getAttribute('data-editing') === 'true') return;
 
