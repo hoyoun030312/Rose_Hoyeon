@@ -77,8 +77,11 @@
         .comment-list-wrapper::-webkit-scrollbar { width: 3px; }
         .comment-list-wrapper::-webkit-scrollbar-thumb { background: #eee; border-radius: 10px; }
 
-        .comment-item { font-size: 0.75rem; margin-bottom: 8px; border-bottom: 1px dashed #eee; padding-bottom: 6px; display: flex; justify-content: space-between; align-items: flex-start; }
+        .comment-item { font-size: 0.75rem; margin-bottom: 8px; border-bottom: 1px dashed #eee; padding-bottom: 6px; display: flex; flex-direction: column; gap: 4px; }
+        .comment-main { display: flex; justify-content: space-between; align-items: flex-start; }
         .comment-text-box { flex: 1; margin-right: 10px; word-break: break-all; }
+        .comment-info { display: flex; justify-content: space-between; align-items: center; }
+        .comment-time { font-size: 0.6rem; color: #ccc; }
         .comment-actions { display: flex; gap: 6px; flex-shrink: 0; }
         .comment-action-btn { font-size: 0.6rem; cursor: pointer; color: #ccc; transition: 0.2s; border: none; background: none; padding: 0; }
         .comment-action-btn:hover { color: var(--main); }
@@ -140,7 +143,6 @@
         let selectedFiles = []; 
         let editFiles = [];
 
-        // ✅ 렌더링 함수를 전역에서 호출 가능하도록 미리 선언
         window.reRender = () => { render(); };
 
         window.handleFileSelect = (event, mode) => {
@@ -250,7 +252,12 @@
             const postRef = doc(db, "rose_memory_v5", id);
             const postSnap = await getDoc(postRef);
             const comments = postSnap.data().comments || [];
-            comments.push({ id: Date.now(), text: input.value });
+            // ✅ 댓글 객체에 timestamp 추가 (현재 시간 기반)
+            comments.push({ 
+                id: Date.now(), 
+                text: input.value, 
+                timestamp: new Date().toLocaleString('ko-KR', { month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' }) 
+            });
             await updateDoc(postRef, { comments });
             input.value = '';
         };
@@ -313,7 +320,19 @@
                             </div>
                             <div class="comment-section">
                                 <div class="comment-list-wrapper" id="comments-${id}">
-                                    ${(d.comments || []).map(c => `<div class="comment-item"><div class="comment-text-box" id="comment-text-${c.id}"><b>💬</b> ${c.text}</div><div class="comment-actions"><button class="comment-action-btn" onclick="toggleEditComment('${id}', ${c.id}, '${c.text}')">수정</button><button class="comment-action-btn" onclick="deleteComment('${id}', ${c.id})">삭제</button></div></div>`).join('')}
+                                    ${(d.comments || []).map(c => `
+                                        <div class="comment-item">
+                                            <div class="comment-main">
+                                                <div class="comment-text-box" id="comment-text-${c.id}"><b>💬</b> ${c.text}</div>
+                                                <div class="comment-actions">
+                                                    <button class="comment-action-btn" onclick="toggleEditComment('${id}', ${c.id}, '${c.text}')">수정</button>
+                                                    <button class="comment-action-btn" onclick="deleteComment('${id}', ${c.id})">삭제</button>
+                                                </div>
+                                            </div>
+                                            <div class="comment-info">
+                                                <span class="comment-time">${c.timestamp || ""}</span>
+                                            </div>
+                                        </div>`).join('')}
                                 </div>
                                 <div class="comment-form"><input type="text" id="cInput-${id}" class="comment-input" placeholder="댓글..."><button class="comment-btn" onclick="addComment('${id}')">등록</button></div>
                             </div>
@@ -325,5 +344,4 @@
         render();
     </script>
 </body>
-</html>
 </html>
