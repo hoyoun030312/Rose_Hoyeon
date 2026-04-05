@@ -21,6 +21,18 @@
 
         .write-section { max-width: 500px; margin: 0 auto 40px; background: var(--card-bg); padding: 20px; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.02); border: 1px solid var(--border); }
         select, input, textarea { width: 100%; box-sizing: border-box; padding: 11px; margin-bottom: 11px; border: 1px solid #e0e0e0; border-radius: 10px; font-family: inherit; outline: none; background-color: #fcfcfc; }
+        
+        /* ✅ 파일 선택 버튼 커스텀 스타일 */
+        .file-upload-wrapper { margin-bottom: 11px; display: flex; align-items: center; gap: 10px; }
+        .file-upload-label { 
+            background: #f0f0f0; color: #666; padding: 10px 15px; border-radius: 10px; 
+            cursor: pointer; font-size: 0.85rem; font-weight: bold; transition: 0.2s;
+            display: inline-block; border: 1px solid #e0e0e0;
+        }
+        .file-upload-label:hover { background: #e5e5e5; }
+        #file-name-display { font-size: 0.75rem; color: #999; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        #pFiles { display: none; } /* 실제 input은 숨김 */
+
         .btn-post { width: 100%; background: var(--main); color: white; border: none; padding: 13px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 0.95rem; }
         
         #postsList { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; width: 100%; }
@@ -54,13 +66,8 @@
         .btn-save { background: var(--main); color: white; }
         .btn-cancel { background: #f0f0f0; color: #888; }
 
-        /* 🔥 댓글 영역 스크롤 제한 추가 */
         .comment-section { background: #fafafa; padding: 12px 18px; border-top: 1px solid #f5f5f5; }
-        .comment-list-wrapper { 
-            max-height: 120px; /* 댓글 리스트 최대 높이 */
-            overflow-y: auto;  /* 넘치면 스크롤바 */
-            padding-right: 5px;
-        }
+        .comment-list-wrapper { max-height: 120px; overflow-y: auto; padding-right: 5px; }
         .comment-list-wrapper::-webkit-scrollbar { width: 3px; }
         .comment-list-wrapper::-webkit-scrollbar-thumb { background: #eee; border-radius: 10px; }
 
@@ -93,12 +100,18 @@
         <div class="video-wrapper">
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/zgaCZOQCpp8?si=r4Kl3mmmFczaCgFz" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
-        <div class="recommend-tag"><span>🎵 MUSIC </span></div>
+        <div class="recommend-tag"><span>🎵 오늘의 추천곡</span></div>
         <div class="write-section">
             <select id="pCategory"><option value="일기">📖 일기</option><option value="편지">💌 편지</option><option value="사진/영상">📸 사진/영상</option></select>
             <input type="text" id="pTitle" placeholder="제목">
             <textarea id="pContent" rows="4" placeholder="내용..."></textarea>
-            <input type="file" id="pFiles" accept="image/*,video/*" multiple>
+            
+            <div class="file-upload-wrapper">
+                <label for="pFiles" class="file-upload-label">📸 사진/영상 선택</label>
+                <span id="file-name-display">선택된 파일 없음</span>
+                <input type="file" id="pFiles" accept="image/*,video/*" multiple onchange="updateFileName()">
+            </div>
+
             <div id="loading-msg" style="display:none; text-align:center; font-weight:bold; margin-bottom:10px;">저장 중... </div>
             <button class="btn-post" id="postBtn" onclick="savePost()">저장</button>
         </div>
@@ -119,6 +132,17 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const storage = getStorage(app);
+
+        // ✅ 파일 선택 시 이름 표시 업데이트 함수
+        window.updateFileName = () => {
+            const input = document.getElementById('pFiles');
+            const display = document.getElementById('file-name-display');
+            if(input.files.length > 0) {
+                display.innerText = input.files.length > 1 ? `${input.files[0].name} 외 ${input.files.length - 1}개` : input.files[0].name;
+            } else {
+                display.innerText = "선택된 파일 없음";
+            }
+        };
 
         let currentTab = '전체';
         window.setTab = (tab) => {
