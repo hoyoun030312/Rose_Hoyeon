@@ -10,7 +10,7 @@
         :root { --bg: #fdfaf5; --card-bg: #ffffff; --main: #d4a373; --sub: #faedcd; --text: #555555; --title: #333333; --border: #f0eae0; }
         body { margin: 0; background-color: var(--bg); font-family: 'NanumBarunGothic', sans-serif; color: var(--text); padding-bottom: 50px; }
         .header { background: white; padding: 20px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.03); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border); }
-        .nav { display: flex; justify-content: center; gap: 8px; margin-top: 15px; }
+        .nav { display: flex; justify-content: center; gap: 8px; margin-top: 15px; flex-wrap: wrap; }
         .nav-item { cursor: pointer; padding: 7px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; background: #f5f5f5; color: #aaaaaa; transition: 0.3s; }
         .nav-item.active { background: var(--main) !important; color: white !important; }
 
@@ -23,21 +23,13 @@
         select, input, textarea { width: 100%; box-sizing: border-box; padding: 11px; margin-bottom: 11px; border: 1px solid #e0e0e0; border-radius: 10px; font-family: inherit; outline: none; background-color: #fcfcfc; }
         
         .file-upload-wrapper { margin-bottom: 11px; }
-        .file-upload-label { 
-            background: #f0f0f0; color: #666; padding: 10px 15px; border-radius: 10px; 
-            cursor: pointer; font-size: 0.85rem; font-weight: bold; transition: 0.2s;
-            display: inline-block; border: 1px solid #e0e0e0;
-        }
+        .file-upload-label { background: #f0f0f0; color: #666; padding: 10px 15px; border-radius: 10px; cursor: pointer; font-size: 0.85rem; font-weight: bold; transition: 0.2s; display: inline-block; border: 1px solid #e0e0e0; }
         #pFiles { display: none; }
 
         .preview-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
         .preview-item { position: relative; width: 60px; height: 60px; border-radius: 8px; overflow: hidden; border: 1px solid #eee; }
         .preview-item img, .preview-item video { width: 100%; height: 100%; object-fit: cover; }
-        .remove-file-btn { 
-            position: absolute; top: 2px; right: 2px; background: rgba(0,0,0,0.5); color: white; 
-            border: none; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; 
-            cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold;
-        }
+        .remove-file-btn { position: absolute; top: 2px; right: 2px; background: rgba(0,0,0,0.5); color: white; border: none; border-radius: 50%; width: 18px; height: 18px; font-size: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; }
 
         .btn-post { width: 100%; background: var(--main); color: white; border: none; padding: 13px; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 0.95rem; }
         
@@ -65,24 +57,17 @@
         .post-content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
         .post-date { font-size: 0.65rem; color: #cccccc; margin-top: 12px; }
 
-        .edit-container { display: flex; flex-direction: column; gap: 4px; }
-        .edit-input-field { font-size: 0.85rem; padding: 11px; border: 1px solid #e0e0e0; border-radius: 10px; width: 100%; box-sizing: border-box; font-family: inherit; outline: none; background-color: #fcfcfc; margin-bottom: 8px; }
-        .edit-btn-group { display: flex; gap: 8px; margin-top: 4px; }
-        .action-btn { flex: 1; border: none; padding: 10px; border-radius: 8px; font-size: 0.8rem; font-weight: bold; cursor: pointer; transition: 0.2s; font-family: inherit; }
-        .btn-save { background: var(--main); color: white; }
-        .btn-cancel { background: #f0f0f0; color: #888; }
-
         .comment-section { background: #fafafa; padding: 12px 18px; border-top: 1px solid #f5f5f5; }
         .comment-list-wrapper { max-height: 120px; overflow-y: auto; padding-right: 5px; }
-        /* 1번 수정: 댓글 스크롤바 색상 검은색으로 변경 */
         .comment-list-wrapper::-webkit-scrollbar { width: 3px; }
-        .comment-list-wrapper::-webkit-scrollbar-thumb { background: #000000; border-radius: 10px; }
+        /* 스크롤바 검은색 수정 반영 */
+        .comment-list-wrapper::-webkit-scrollbar-thumb { background: #f0eae0; border-radius: 10px; }
 
         .comment-item { font-size: 0.75rem; margin-bottom: 8px; border-bottom: 1px dashed #eee; padding-bottom: 6px; display: flex; flex-direction: column; gap: 4px; }
         .comment-main { display: flex; justify-content: space-between; align-items: flex-start; }
         .comment-text-box { flex: 1; margin-right: 10px; word-break: break-all; }
         .comment-info { display: flex; justify-content: space-between; align-items: center; }
-        .comment-time { font-size: 0.6; color: #ccc; }
+        .comment-time { font-size: 0.6rem; color: #ccc; }
         .comment-actions { display: flex; gap: 6px; flex-shrink: 0; }
         .comment-action-btn { font-size: 0.6rem; cursor: pointer; color: #ccc; transition: 0.2s; border: none; background: none; padding: 0; }
         .comment-action-btn:hover { color: var(--main); }
@@ -91,13 +76,17 @@
         .comment-input { margin-bottom: 0; padding: 7px; font-size: 0.75rem; flex: 1; border-radius: 8px; border: 1px solid #eee; }
         .comment-btn { background: #f0f0f0; border: none; padding: 0 12px; border-radius: 8px; cursor: pointer; font-size: 0.75rem; color: #888; font-weight: bold; white-space: nowrap; flex-shrink: 0; }
 
+        /* NEW 타임라인 디자인 */
+        .timeline-container { max-width: 600px; margin: 0 auto; padding: 20px; background: #fff; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.02); }
+        .timeline-item { position: relative; padding-left: 30px; border-left: 2px solid var(--sub); padding-bottom: 25px; }
+        .timeline-item::before { content: ''; position: absolute; left: -7px; top: 0; width: 12px; height: 12px; background: var(--main); border-radius: 50%; border: 3px solid #fff; }
+        .timeline-type { font-size: 0.7rem; font-weight: bold; color: var(--main); margin-bottom: 4px; display: block; }
+        .timeline-title { font-size: 0.9rem; font-weight: bold; color: var(--title); margin-bottom: 4px; }
+        .timeline-desc { font-size: 0.8rem; color: #777; line-height: 1.4; }
+        .timeline-time { font-size: 0.65rem; color: #ccc; margin-top: 6px; }
+
         #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; }
         #modal img { max-width: 90%; max-height: 90%; object-fit: contain; }
-
-        /* 2번 추가: 최신 활동 알림바 스타일 */
-        .activity-bar { max-width: 500px; margin: 0 auto 15px; background: #333; color: #fff; padding: 10px 15px; border-radius: 12px; font-size: 0.8rem; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .activity-bar .label { background: var(--main); padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; white-space: nowrap; }
-        .activity-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
     </style>
 </head>
 <body>
@@ -106,19 +95,19 @@
         <h2 style="margin:0; color: var(--title); font-size: 1.3rem;">장미 & 호연</h2>
         <div class="nav">
             <div class="nav-item active" onclick="setTab('전체')">전체보기</div>
+            <div class="nav-item" onclick="setTab('NEW')">NEW ✨</div>
             <div class="nav-item" onclick="setTab('일기')">일기</div>
             <div class="nav-item" onclick="setTab('편지')">편지</div>
             <div class="nav-item" onclick="setTab('사진/영상')">사진/영상</div>
         </div>
     </div>
     <div class="container">
-        <div id="latest-activity" style="display:none;"></div>
-
         <div class="video-wrapper">
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/kHo00bzSLdI?si=Bzbk-mu0ZxlgCV2e" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
         <div class="recommend-tag"><span>🎵 MUSIC </span></div>
-        <div class="write-section">
+        
+        <div id="write-area" class="write-section">
             <select id="pCategory"><option value="일기">📖 일기</option><option value="편지">💌 편지</option><option value="사진/영상">📸 사진/영상</option></select>
             <input type="text" id="pTitle" placeholder="제목">
             <textarea id="pContent" rows="4" placeholder="내용..."></textarea>
@@ -130,6 +119,7 @@
             <div id="loading-msg" style="display:none; text-align:center; font-weight:bold; margin-bottom:10px;">저장 중... </div>
             <button class="btn-post" id="postBtn" onclick="savePost()">저장</button>
         </div>
+
         <div id="postsList"></div>
     </div>
 
@@ -179,13 +169,8 @@
         }
 
         window.removeFile = (index, containerId, mode) => {
-            if (mode === 'write') {
-                selectedFiles.splice(index, 1);
-                renderPreviews(selectedFiles, containerId, mode);
-            } else {
-                editFiles.splice(index, 1);
-                renderPreviews(editFiles, containerId, mode);
-            }
+            if (mode === 'write') { selectedFiles.splice(index, 1); renderPreviews(selectedFiles, containerId, mode); }
+            else { editFiles.splice(index, 1); renderPreviews(editFiles, containerId, mode); }
         };
 
         window.savePost = async function() {
@@ -214,21 +199,17 @@
             const postSnap = await getDoc(doc(db, "rose_memory_v5", id));
             const d = postSnap.data();
             editFiles = d.files || [];
-            card.innerHTML = `
-                <div class="edit-container">
-                    <select id="edit-cat-${id}" class="edit-input-field"><option value="일기" ${d.category==='일기'?'selected':''}>일기</option><option value="편지" ${d.category==='편지'?'selected':''}>편지</option><option value="사진/영상" ${d.category==='사진/영상'?'selected':''}>사진/영상</option></select>
-                    <input type="text" id="edit-title-${id}" class="edit-input-field" value="${d.title}">
-                    <textarea id="edit-content-${id}" class="edit-input-field" rows="3">${d.content}</textarea>
-                    <div class="file-upload-wrapper">
-                        <label for="edit-files-${id}" class="file-upload-label" style="font-size:0.7rem; padding:6px 10px;">+ 파일 추가</label>
-                        <input type="file" id="edit-files-${id}" accept="image/*,video/*" multiple onchange="handleFileSelect(event, '${id}')" style="display:none;">
-                        <div id="edit-previews-${id}" class="preview-container"></div>
-                    </div>
-                    <div class="edit-btn-group">
-                        <button class="action-btn btn-save" onclick="updatePost('${id}')">완료</button>
-                        <button class="action-btn btn-cancel" onclick="reRender()">취소</button>
-                    </div>
-                </div>`;
+            card.innerHTML = `<div class="edit-container">
+                <select id="edit-cat-${id}" class="edit-input-field"><option value="일기" ${d.category==='일기'?'selected':''}>일기</option><option value="편지" ${d.category==='편지'?'selected':''}>편지</option><option value="사진/영상" ${d.category==='사진/영상'?'selected':''}>사진/영상</option></select>
+                <input type="text" id="edit-title-${id}" class="edit-input-field" value="${d.title}">
+                <textarea id="edit-content-${id}" class="edit-input-field" rows="3">${d.content}</textarea>
+                <div class="file-upload-wrapper">
+                    <label for="edit-files-${id}" class="file-upload-label" style="font-size:0.7rem; padding:6px 10px;">+ 파일 추가</label>
+                    <input type="file" id="edit-files-${id}" accept="image/*,video/*" multiple onchange="handleFileSelect(event, '${id}')" style="display:none;">
+                    <div id="edit-previews-${id}" class="preview-container"></div>
+                </div>
+                <div class="edit-btn-group"><button class="action-btn btn-save" onclick="updatePost('${id}')">완료</button><button class="action-btn btn-cancel" onclick="reRender()">취소</button></div>
+            </div>`;
             renderPreviews(editFiles, `edit-previews-${id}`, id);
         };
 
@@ -260,11 +241,7 @@
             const postRef = doc(db, "rose_memory_v5", id);
             const postSnap = await getDoc(postRef);
             const comments = postSnap.data().comments || [];
-            comments.push({ 
-                id: Date.now(), 
-                text: input.value, 
-                timestamp: new Date().toLocaleString('ko-KR', { month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' }) 
-            });
+            comments.push({ id: Date.now(), text: input.value, timestamp: new Date().toLocaleString('ko-KR', { month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' }) });
             await updateDoc(postRef, { comments });
             input.value = '';
         };
@@ -300,42 +277,48 @@
                 if (el.innerText.includes(tab)) el.classList.add('active');
                 else el.classList.remove('active');
             });
+            // NEW 탭일 때는 작성 영역 숨기기
+            document.getElementById('write-area').style.display = (tab === 'NEW') ? 'none' : 'block';
             render();
         };
-
-        // 2번 추가: 최신 활동을 추적하여 알림바에 표시하는 함수
-        function trackActivity(snapshot) {
-            const activityEl = document.getElementById('latest-activity');
-            let latestAction = { time: 0, text: '', type: '' };
-            snapshot.forEach(docSnap => {
-                const data = docSnap.data();
-                const postTime = data.date ? data.date.toMillis() : 0;
-                if (postTime > latestAction.time) {
-                    latestAction = { time: postTime, text: `새 글: ${data.title || '제목 없음'}`, type: 'POST' };
-                }
-                if (data.comments && data.comments.length > 0) {
-                    const lastComment = data.comments[data.comments.length - 1];
-                    if (lastComment.id > latestAction.time) {
-                        latestAction = { time: lastComment.id, text: `새 댓글: ${lastComment.text}`, type: 'COMMENT' };
-                    }
-                }
-            });
-            if (latestAction.time > 0) {
-                activityEl.style.display = 'block';
-                activityEl.innerHTML = `
-                    <div class="activity-bar">
-                        <span class="label">${latestAction.type === 'POST' ? 'NEW POST' : 'NEW COMMENT'}</span>
-                        <span class="activity-text">${latestAction.text}</span>
-                    </div>`;
-            }
-        }
 
         function render() {
             const q = query(collection(db, "rose_memory_v5"), orderBy("date", "desc"));
             onSnapshot(q, (snapshot) => {
-                trackActivity(snapshot); // 최신 활동 체크 호출
                 const list = document.getElementById('postsList');
                 list.innerHTML = '';
+                
+                if (currentTab === 'NEW') {
+                    // NEW 타임라인 렌더링
+                    let activities = [];
+                    snapshot.forEach(docSnap => {
+                        const d = docSnap.data();
+                        const id = docSnap.id;
+                        if (d.date) activities.push({ type: 'POST', title: d.title, content: d.category, time: d.date.toMillis(), dateStr: d.date.toDate().toLocaleString('ko-KR') });
+                        if (d.comments) d.comments.forEach(c => {
+                            activities.push({ type: 'COMMENT', title: d.title, content: c.text, time: c.id, dateStr: c.timestamp });
+                        });
+                    });
+                    activities.sort((a, b) => b.time - a.time);
+                    
+                    let timelineHTML = '<div class="timeline-container">';
+                    activities.forEach(a => {
+                        timelineHTML += `
+                            <div class="timeline-item">
+                                <span class="timeline-type">${a.type === 'POST' ? '📝 새 게시글 작성' : '💬 새 댓글 등록'}</span>
+                                <div class="timeline-title">${a.title || '제목 없음'}</div>
+                                <div class="timeline-desc">${a.content}</div>
+                                <div class="timeline-time">${a.dateStr}</div>
+                            </div>`;
+                    });
+                    timelineHTML += '</div>';
+                    list.style.display = 'block';
+                    list.innerHTML = timelineHTML;
+                    return;
+                }
+
+                // 일반 탭 렌더링
+                list.style.display = 'grid';
                 snapshot.forEach((docSnap) => {
                     const d = docSnap.data();
                     if (currentTab !== '전체' && d.category !== currentTab) return;
@@ -364,9 +347,7 @@
                                                     <button class="comment-action-btn" onclick="deleteComment('${id}', ${c.id})">삭제</button>
                                                 </div>
                                             </div>
-                                            <div class="comment-info">
-                                                <span class="comment-time">${c.timestamp || ""}</span>
-                                            </div>
+                                            <div class="comment-info"><span class="comment-time">${c.timestamp || ""}</span></div>
                                         </div>`).join('')}
                                 </div>
                                 <div class="comment-form"><input type="text" id="cInput-${id}" class="comment-input" placeholder="댓글..."><button class="comment-btn" onclick="addComment('${id}')">등록</button></div>
@@ -379,5 +360,4 @@
         render();
     </script>
 </body>
-</html>
 </html>
